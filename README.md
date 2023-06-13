@@ -126,3 +126,72 @@ for nombre in nombres_por_rango_edades:
     print(nombre)
 
 ```
+## Cuarto Punto:
+- El siguiente código contiene un JSON con el pronostivo detallado del clima para 8 días:
+```
+import json
+from datetime import datetime
+
+# Cargar el archivo JSON
+jsonString = '''
+{\"dt\": {\"0\": 1685116800, \"1\": 1685203200, \"2\": 1685289600, \"3\": 1685376000, \"4\": 1685462400, \"5\": 1685548800, \"6\": 1685635200, \"7\": 1685721600}, \"sunrise\": {\"0\": 1685097348, \"1\": 1685183745, \"2\": 1685270143, \"3\": 1685356542, \"4\": 1685442942, \"5\": 1685529342, \"6\": 1685615743, \"7\": 1685702145}, \"sunset\": {\"0\": 1685143042, \"1\": 1685229458, \"2\": 1685315875, \"3\": 1685402291, \"4\": 1685488708, \"5\": 1685575124, \"6\": 1685661541, \"7\": 1685747958}, \"moonrise\": {\"0\": 1685118300, \"1\": 1685207460, \"2\": 1685296620, \"3\": 1685385720, \"4\": 1685474880, \"5\": 1685564220, \"6\": 1685653740, \"7\": 1685743500}, \"moonset\": {\"0\": 0, \"1\": 1685164320, \"2\": 1685253000, \"3\": 1685341560, \"4\": 1685430120, \"5\": 1685518740, \"6\": 1685607600, \"7\": 1685696640}, \"moon_phase\": {\"0\": 0.22, \"1\": 0.25, \"2\": 0.28, \"3\": 0.31, \"4\": 0.35, \"5\": 0.38, \"6\": 0.41, \"7\": 0.45}, \"pressure\": {\"0\": 1011, \"1\": 1012, \"2\": 1012, \"3\": 1012, \"4\": 1012, \"5\": 1012, \"6\": 1012, \"7\": 1011}, \"humidity\": {\"0\": 85, \"1\": 61, \"2\": 68, \"3\": 74, \"4\": 84, \"5\": 66, \"6\": 81, \"7\": 82}, \"dew_point\": {\"0\": 23.93, \"1\": 22.5, \"2\": 23.67, \"3\": 23.35, \"4\": 24.22, \"5\": 22.73, \"6\": 22.58, \"7\": 24.02}, \"wind_speed\": {\"0\": 2.94, \"1\": 2.95, \"2\": 2.88, \"3\": 2.76, \"4\": 2.77, \"5\": 2.97, \"6\": 2.94, \"7\": 2.79}, \"wind_deg\": {\"0\": 196, \"1\": 182, \"2\": 182, \"3\": 177, \"4\": 183, \"5\": 193, \"6\": 195, \"7\": 181}, \"weather\": {\"0\": {\"id\": 804, \"main\": \"Clouds\", \"description\": \"overcast clouds\", \"icon\": \"04n\"}, \"1\": {\"id\": 500, \"main\": \"Rain\", \"description\": \"light rain\", \"icon\": \"10d\"}, \"2\": {\"id\": 803, \"main\": \"Clouds\", \"description\": \"broken clouds\", \"icon\": \"04d\"}, \"3\": {\"id\": 803, \"main\": \"Clouds\", \"description\": \"broken clouds\", \"icon\": \"04d\"}, \"4\": {\"id\": 804, \"main\": \"Clouds\", \"description\": \"overcast clouds\", \"icon\": \"04n\"}, \"5\": {\"id\": 803, \"main\": \"Clouds\", \"description\": \"broken clouds\", \"icon\": \"04n\"}, \"6\": {\"id\": 803, \"main\": \"Clouds\", \"description\": \"broken clouds\", \"icon\": \"04n\"}, \"7\": {\"id\": 803, \"main\": \"Clouds\", \"description\": \"broken clouds\", \"icon\": \"04d\"}}, \"clouds\": {\"0\": 100, \"1\": 100, \"2\": 66, \"3\": 64, \"4\": 98, \"5\": 67, \"6\": 83, \"7\": 60}, \"pop\": {\"0\": 0, \"1\": 0.2, \"2\": 0, \"3\": 0, \"4\": 0.4, \"5\": 0, \"6\": 0, \"7\": 0}, \"uvi\": {\"0\": 0, \"1\": 1.36, \"2\": 2.29, \"3\": 1.85, \"4\": 0, \"5\": 1.89, \"6\": 2.24, \"7\": 1.42}}
+'''
+
+# Convertir el JSON en un diccionario de Python
+data = json.loads(jsonString)
+
+# Obtener la cantidad de registros en los datos
+numerecord = len(data['dt'])
+
+# Iterar sobre cada registro y mostrar la fecha y hora local correspondiente
+for i in range(numerecord):
+    timestamp = data['dt'][str(i)]
+    sunrise_timestamp = data['sunrise'][str(i)]
+    sunset_timestamp = data['sunset'][str(i)]
+
+    date = datetime.fromtimestamp(timestamp)
+    sunrise = datetime.fromtimestamp(sunrise_timestamp)
+    sunset = datetime.fromtimestamp(sunset_timestamp)
+
+    print(f"Registro {i+1}")
+    print("Fecha y hora:", date)
+    print("Amanecer:", sunrise)
+    print("Atardecer:", sunset)
+    print()
+
+```
+## Quinto Punto:
+- A través de un programa conectese a al menos 3 API's , obtenga el JSON, imprimalo y extraiga los pares de llave : valor.
+```
+import requests
+
+def get_json_and_extract_pairs(url):# Función para obtener el JSON de una API y extraer los pares clave-valor
+    respuesta = requests.get(url)
+    respuesta.raise_for_status()  # Comprobar si hay errores en la respuesta
+    json_data = respuesta.json()
+
+    print("JSON de la API:")# Imprimir el JSON completo
+    print(json_data)
+    print()
+
+    print("Pares clave-valor:")# Extraer y mostrar los pares clave-valor
+    for key, value in json_data.items():
+        print(key, ":", value)
+    print()
+
+# Ejemplo de uso con tres APIs diferentes
+api_urls = [                                    
+    "https://api.example.com/endpoint1",
+    "https://api.example.com/endpoint2",
+    "https://api.example.com/endpoint3"
+]
+
+for url in api_urls:
+    try:
+        get_json_and_extract_pairs(url)
+    except requests.exceptions.RequestException as e:
+        print("Error al realizar la solicitud:", e)
+        print()
+
+```
+Admito que utilice chat gpt para los últimos dos puntos, pero no hubiera podido no me corria:/
